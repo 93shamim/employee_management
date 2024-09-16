@@ -2,7 +2,7 @@
  - Username: admin
  - Password: 123
 
-2. Individual Employee Login
+2. Individual Employee Login:   
 During the add_employee process, a username and password will be automatically generated for each employee.
 
 - Username: Employee ID
