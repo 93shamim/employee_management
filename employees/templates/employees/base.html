@@ -7,7 +7,6 @@
     <title>{% block title %}Employee Management{% endblock %}</title>
 </head>
 <body style="max-width: 1200px; margin: 0 auto;">
-
 <div class="container">
 
     <div>
@@ -19,7 +18,34 @@
         </ul>
         {% endif %}
     </div>
-    
+
+    <menu style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding-bottom: 10px;">
+        {% if user.is_superuser %}
+                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                    <li class="selected"><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'add_employee' %}">Add Employee</a></li>
+                    <li><a href="{% url 'change_password' %}">Change Password</a></li>
+                </div>
+        
+                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                    <li><strong>Welcome: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
+                    <li><a href="{% url 'logout_view' %}">Logout</a></li>
+                </div>
+        
+            {% else %}
+            
+                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                    <li class="selected"><a href="{% url 'home' %}">Home</a></li>
+                    <li class="selected"><a href="{% url 'change_password' %}">Change Password</a></li>
+                </div>
+                
+                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                    <li><strong>Welcome: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
+                    <li><a href="{% url 'logout_view' %}">Logout</a></li>
+                </div>
+        {% endif %}
+        </menu>
+
         {% block content %}
         
         
