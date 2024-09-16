@@ -10,10 +10,19 @@ from django.contrib import messages
 # Create your views here.
 
 
+# @login_required
+# def home(request):
+#     employees = Employee.objects.all()
+#     return render(request, 'employees/home.html', {'employees': employees})
+
+
 @login_required
 def home(request):
     employees = Employee.objects.all()
-    return render(request, 'employees/home.html', {'employees': employees})
+    employee = None
+    if not request.user.is_superuser:
+        employee = get_object_or_404(Employee, empID=request.user.username)
+    return render(request, 'employees/home.html', {'employees': employees, 'employee': employee})
 
 
 
@@ -83,18 +92,37 @@ def logout_view(request):
 
 
 
+# @login_required
+# def change_password(request):
+#     if request.method == 'POST':
+#         password_form = PasswordChangeForm(data=request.POST, user=request.user)
+#         if password_form.is_valid():
+#             user = password_form.save()
+#             update_session_auth_hash(request, user)  # Keep user logged in after password change
+
+#             messages.success(request, "Your password changed successfully!")
+
+#             return redirect('home')
+#     else:
+#         password_form = PasswordChangeForm(user=request.user)
+    
+#     return render(request, 'employees/change_password.html', {'password_form': password_form})
+
+
 @login_required
 def change_password(request):
+    employee = None
+    if not request.user.is_superuser:
+        employee = get_object_or_404(Employee, empID=request.user.username)
+        
     if request.method == 'POST':
         password_form = PasswordChangeForm(data=request.POST, user=request.user)
         if password_form.is_valid():
             user = password_form.save()
             update_session_auth_hash(request, user)  # Keep user logged in after password change
-
-            messages.success(request, "Your password changed successfully!")
-
+            messages.success(request, f"Password changed successfully!")
             return redirect('home')
     else:
         password_form = PasswordChangeForm(user=request.user)
     
-    return render(request, 'employees/change_password.html', {'password_form': password_form})
+    return render(request, 'employees/change_password.html', {'password_form': password_form, 'employee': employee})
