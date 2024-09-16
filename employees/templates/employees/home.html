@@ -1,0 +1,111 @@
+{% extends 'employees/base.html' %}
+
+{% block title %}Employee Profiles{% endblock %}
+
+{% block content %}
+
+<menu style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+{% if user.is_superuser %}
+        <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+            <li class="selected"><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'add_employee' %}">Add Employee</a></li>
+            <li><a href="{% url 'change_password' %}">Change Password</a></li>
+        </div>
+
+        <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+            <li><strong>Login as: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
+            <li><a href="{% url 'logout_view' %}">Logout</a></li>
+        </div>
+
+    {% else %}
+    
+        <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+            <li class="selected"><a href="{% url 'home' %}">Home</a></li>
+            <li class="selected"><a href="{% url 'change_password' %}">Change Password</a></li>
+        </div>
+        
+        <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+            <li><strong>Login as: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
+            <li><a href="{% url 'logout_view' %}">Logout</a></li>
+        </div>
+{% endif %}
+</menu>
+
+
+{% if user.is_superuser %}
+    <h1>Employee Profiles</h1>
+    <table width="80%">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Emp.ID</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Salary</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Short Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ employee.empID }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.designation }}</td>
+                    <td>{{ employee.salary }}</td>
+                    <td>{{ employee.phone_number }}</td>
+                    <td>{{ employee.address }}</td>
+                    <td>{{ employee.short_description }}</td>
+                    <td>
+                        <a href="{% url 'update_employee' employee.pk %}">Edit</a>
+                        <a href="{% url 'delete_employee' employee.pk %}"><span style="color: red;">Delete</span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <h1>Employee Profiles</h1>
+    <table width="80%">
+        <thead>
+            <tr>
+                <th>Emp.ID</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Salary</th>
+                <th>Phone Number</th>
+                <th>Address</th>
+                <th>Short Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+
+            {% if employee.empID|stringformat:"s" == user.username  %}
+            <tr>
+                <td>{{ employee.empID }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ employee.designation }}</td>
+                <td>{{ employee.salary }}</td>
+                <td>{{ employee.phone_number }}</td>
+                <td>{{ employee.address }}</td>
+                <td>{{ employee.short_description }}</td>
+                <td>
+                    <a href="{% url 'update_employee' employee.pk %}">Edit</a>
+                    <!-- <a href="{% url 'delete_employee' employee.pk %}"><span style="color: red;">Delete</span></a> -->
+                </td>
+            </tr>
+            {% endif%}
+        {% endfor %}
+        </tbody>
+        </table>
+    
+{% endif %}
+
+{% endblock %}

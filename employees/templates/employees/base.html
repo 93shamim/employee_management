@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <title>{% block title %}Employee Management{% endblock %}</title>
+</head>
+<body style="max-width: 1200px; margin: 0 auto;">
+
+<div class="container">
+
+    <div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <p style="text-align: center;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    
+        {% block content %}
+        
+        
+        {% endblock %}
+</div>
+</body>
+</html>

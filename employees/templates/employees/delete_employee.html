@@ -1,0 +1,13 @@
+{% extends 'employees/base.html' %}
+
+{% block title %}Delete Employee{% endblock %}
+
+{% block content %}
+    <h1>Delete Employee</h1>
+    <p>Are you sure you want to delete <strong>{{ employee.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+    </form>
+    <a href="{% url 'home' %}">Cancel</a>
+{% endblock %}
