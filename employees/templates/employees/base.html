@@ -19,37 +19,46 @@
         {% endif %}
     </div>
 
+<!-- {% for employee in employees %}
+    {% if employee.empID|stringformat:"s" == request.user.username %}
+                                    
+    {% endif %}
+{% endfor %} -->
+
+
     <menu style="display: flex; justify-content: space-between; align-items: center; width: 100%; padding-bottom: 10px;">
         {% if user.is_superuser %}
-                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                <div style="display: flex; gap: 20px;">
                     <li class="selected"><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="{% url 'add_employee' %}">Add Employee</a></li>
                     <li><a href="{% url 'change_password' %}">Change Password</a></li>
                 </div>
         
-                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                <div style="display: flex; gap: 20px;">
                     <li><strong>Welcome: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
                     <li><a href="{% url 'logout_view' %}">Logout</a></li>
                 </div>
         
             {% else %}
             
-                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
+                <div style="display: flex; gap: 20px;">
                     <li class="selected"><a href="{% url 'home' %}">Home</a></li>
                     <li class="selected"><a href="{% url 'change_password' %}">Change Password</a></li>
                 </div>
                 
-                <div style="display: flex; gap: 20px;"> <!-- Adjust gap value as needed -->
-                    <li><strong>Welcome: {{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user }})</strong></li>
+                <div style="display: flex; gap: 20px;">
+                    <li><strong>Welcome: {{ employee.name }} ({{ request.user.username }})</strong></li>
                     <li><a href="{% url 'logout_view' %}">Logout</a></li>
                 </div>
+                
         {% endif %}
-        </menu>
+    </menu>
 
-        {% block content %}
+{% block content %}
         
         
-        {% endblock %}
+{% endblock %}
+
 </div>
 </body>
 </html>

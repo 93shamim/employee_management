@@ -2,8 +2,8 @@
 
 {% block title %}Employee Profiles{% endblock %}
 
-{% block content %}
 
+{% block content %}
 
 {% if user.is_superuser %}
     <h1>Employee Profiles</h1>
@@ -58,6 +58,7 @@
             </tr>
         </thead>
         <tbody>
+
         {% for employee in employees %}
 
             {% if employee.empID|stringformat:"s" == user.username  %}
@@ -69,13 +70,12 @@
                 <td>{{ employee.phone_number }}</td>
                 <td>{{ employee.address }}</td>
                 <td>{{ employee.short_description }}</td>
-                <td>
-                    <a href="{% url 'update_employee' employee.pk %}">Edit</a>
-                    <!-- <a href="{% url 'delete_employee' employee.pk %}"><span style="color: red;">Delete</span></a> -->
-                </td>
+                <td><a href="{% url 'update_employee' employee.pk %}">Edit</a></td>
             </tr>
             {% endif%}
+
         {% endfor %}
+        
         </tbody>
         </table>
     
